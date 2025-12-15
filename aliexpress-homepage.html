@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>AliExpress - Home</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background-color: #f5f5f5;
+      max-width: 480px;
+      margin: 0 auto;
+      min-height: 100vh;
+    }
+
+    /* Search Bar */
+    .search-container {
+      background: #fff;
+      padding: 12px 16px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .search-bar {
+      display: flex;
+      align-items: center;
+      background: #fff;
+      border: 2px solid #f0f0f0;
+      border-radius: 25px;
+      padding: 8px 8px 8px 16px;
+      gap: 10px;
+    }
+
+    .search-icon {
+      width: 24px;
+      height: 24px;
+      color: #999;
+    }
+
+    .search-input {
+      flex: 1;
+      border: none;
+      outline: none;
+      font-size: 14px;
+      color: #333;
+    }
+
+    .search-input::placeholder {
+      color: #999;
+    }
+
+    .search-btn {
+      background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+      color: #fff;
+      border: none;
+      border-radius: 20px;
+      padding: 8px 20px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    /* Banner Section */
+    .banner-section {
+      padding: 12px 16px;
+    }
+
+    .banner {
+      background: linear-gradient(135deg, #ff6b00 0%, #ff8c00 50%, #ffb347 100%);
+      border-radius: 16px;
+      overflow: hidden;
+      position: relative;
+      height: 140px;
+      display: flex;
+    }
+
+    .banner-content {
+      padding: 20px;
+      color: #fff;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .banner-subtitle {
+      font-size: 12px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .banner-title {
+      font-size: 28px;
+      font-weight: 800;
+      line-height: 1.1;
+      margin: 4px 0;
+    }
+
+    .banner-tagline {
+      font-size: 11px;
+      font-weight: 500;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .banner-btn {
+      background: #ff5722;
+      color: #fff;
+      border: none;
+      border-radius: 20px;
+      padding: 8px 16px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      width: fit-content;
+    }
+
+    .banner-image {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      height: 140px;
+      width: 180px;
+      object-fit: cover;
+    }
+
+    .banner-badge {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: rgba(255,255,255,0.9);
+      border-radius: 8px;
+      padding: 6px 10px;
+      font-size: 9px;
+      font-weight: 700;
+      color: #333;
+      text-align: center;
+      line-height: 1.3;
+    }
+
+    /* Dot Indicators */
+    .dots {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 12px;
+    }
+
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #ddd;
+    }
+
+    .dot.active {
+      background: #ff6b00;
+      width: 18px;
+      border-radius: 3px;
+    }
+
+    /* Categories Section */
+    .categories-section {
+      background: #fff;
+      margin: 12px 16px;
+      border-radius: 16px;
+      padding: 16px 0;
+    }
+
+    .categories-row {
+      display: flex;
+      overflow-x: auto;
+      padding: 0 12px;
+      gap: 8px;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    .categories-row::-webkit-scrollbar {
+      display: none;
+    }
+
+    .category-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-width: 72px;
+      cursor: pointer;
+    }
+
+    .category-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 8px;
+      overflow: hidden;
+      border: 1px solid #f0f0f0;
+    }
+
+    .category-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .category-name {
+      font-size: 11px;
+      color: #333;
+      text-align: center;
+      line-height: 1.3;
+    }
+
+    /* Category Row Dots */
+    .category-dots {
+      display: flex;
+      justify-content: center;
+      gap: 4px;
+      margin-top: 12px;
+    }
+
+    .category-dot {
+      width: 16px;
+      height: 4px;
+      border-radius: 2px;
+      background: #eee;
+    }
+
+    .category-dot.active {
+      background: #ff6b00;
+    }
+
+    /* Flash Sale Section */
+    .flash-sale-section {
+      background: #fff;
+      margin: 12px 16px;
+      border-radius: 16px;
+      padding: 16px;
+    }
+
+    .flash-sale-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .flash-sale-title {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+    }
+
+    .flash-text {
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .flash-text.orange {
+      color: #ff6b00;
+    }
+
+    .flash-text.red {
+      color: #e53935;
+    }
+
+    .lightning {
+      color: #ffeb3b;
+      font-size: 18px;
+      text-shadow: 0 0 4px rgba(255,152,0,0.5);
+    }
+
+    .shop-more {
+      font-size: 14px;
+      color: #333;
+      text-decoration: none;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .shop-more::after {
+      content: '›';
+      font-size: 18px;
+    }
+
+    /* Flash Sale Products */
+    .flash-products {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      padding-bottom: 4px;
+    }
+
+    .flash-products::-webkit-scrollbar {
+      display: none;
+    }
+
+    .flash-product {
+      min-width: 120px;
+      max-width: 120px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .flash-product-image {
+      position: relative;
+      width: 120px;
+      height: 120px;
+      background: #f9f9f9;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 8px;
+    }
+
+    .flash-product-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .save-badge {
+      position: absolute;
+      top: 0;
+      left: 0;
+      background: linear-gradient(135deg, #ff4081 0%, #f50057 100%);
+      color: #fff;
+      padding: 6px 8px;
+      border-radius: 12px 0 12px 0;
+      font-size: 10px;
+      font-weight: 700;
+      line-height: 1.2;
+      text-align: center;
+    }
+
+    .save-badge span {
+      display: block;
+      font-size: 14px;
+    }
+
+    .flash-price {
+      font-size: 16px;
+      font-weight: 700;
+      color: #e53935;
+      margin-bottom: 2px;
+    }
+
+    .flash-original-price {
+      font-size: 12px;
+      color: #999;
+      text-decoration: line-through;
+      margin-bottom: 8px;
+    }
+
+    .sold-badge {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      background: linear-gradient(135deg, #ff6b6b 0%, #ee5a5a 100%);
+      color: #fff;
+      border-radius: 12px;
+      padding: 6px 10px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .sold-badge.stock {
+      background: linear-gradient(135deg, #ffb6c1 0%, #ffa0ab 100%);
+      color: #d32f2f;
+    }
+
+    .fire-icon {
+      font-size: 12px;
+    }
+
+    /* 20% OFF Category Icon */
+    .cat-20off {
+      background: linear-gradient(135deg, #fff5f5 0%, #ffe5e5 100%);
+      border: 2px solid #ffcccc !important;
+    }
+
+    .cat-20off-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #e53935;
+      font-weight: 700;
+    }
+
+    .cat-20off-inner .percent {
+      font-size: 18px;
+      line-height: 1;
+    }
+
+    .cat-20off-inner .off {
+      font-size: 10px;
+    }
+
+    /* Choice Category */
+    .cat-choice {
+      background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
+      border: 2px solid #ffe082 !important;
+    }
+
+    .cat-choice-inner {
+      font-size: 11px;
+      font-weight: 800;
+      color: #ff6f00;
+      letter-spacing: -0.5px;
+    }
+
+    /* Free Category */
+    .cat-free {
+      background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+      border: 2px solid #a5d6a7 !important;
+    }
+
+    .cat-free-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .cat-free-inner img {
+      width: 40px;
+      height: 40px;
+    }
+
+    /* Buy More Save More */
+    .cat-buymore {
+      background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+      border: 2px solid #ffcc80 !important;
+    }
+
+    .cat-buymore-inner {
+      font-size: 9px;
+      font-weight: 700;
+      color: #e65100;
+      text-align: center;
+      line-height: 1.2;
+    }
+
+    /* New Arrivals */
+    .cat-new {
+      background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+      border: 2px solid #90caf9 !important;
+      position: relative;
+    }
+
+    .cat-new-badge {
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      background: #4caf50;
+      color: #fff;
+      font-size: 8px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 8px;
+    }
+
+    /* DarazMall */
+    .cat-mall {
+      background: linear-gradient(135deg, #fce4ec 0%, #f8bbd9 100%);
+      border: 2px solid #f48fb1 !important;
+    }
+
+    .cat-mall-inner {
+      font-size: 10px;
+      font-weight: 800;
+      color: #c2185b;
+    }
+
+    .cat-mall-inner .dm {
+      font-size: 16px;
+      display: block;
+    }
+
+    /* Generic category with image */
+    .cat-img {
+      background: #fff;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Search Bar -->
+  <div class="search-container">
+    <div class="search-bar">
+      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"/>
+        <path d="M21 21l-4.35-4.35"/>
+      </svg>
+      <input type="text" class="search-input" placeholder="power bank" value="power bank">
+      <button class="search-btn">Search</button>
+    </div>
+  </div>
+
+  <!-- Banner Section -->
+  <div class="banner-section">
+    <div class="banner">
+      <div class="banner-content">
+        <span class="banner-subtitle">SAVE UP TO</span>
+        <div class="banner-title">20% OFF</div>
+        <span class="banner-tagline">IN GEMS CHANNEL</span>
+        <button class="banner-btn">Shop Now</button>
+      </div>
+      <div class="banner-badge">MORE GEMS,<br>MORE SAVINGS!</div>
+      <img src="/placeholder.svg?height=140&width=180" class="banner-image" alt="Banner">
+    </div>
+    <div class="dots">
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot active"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
+  </div>
+
+  <!-- Categories Section -->
+  <div class="categories-section">
+    <!-- Row 1 -->
+    <div class="categories-row">
+      <div class="category-item">
+        <div class="category-icon cat-20off">
+          <div class="cat-20off-inner">
+            <span class="percent">20%</span>
+            <span class="off">OFF</span>
+          </div>
+        </div>
+        <span class="category-name">20%<br>OFF</span>
+      </div>
+      <div class="category-item">
+        <div class="category-icon cat-choice">
+          <span class="cat-choice-inner">CHOICE</span>
+        </div>
+        <span class="category-name">Everyday<br>Low Price</span>
+      </div>
+      <div class="category-item">
+        <div class="category-icon cat-free">
+          <img src="/placeholder.svg?height=56&width=56" alt="Daraz Freebie">
+        </div>
+        <span class="category-name">Daraz<br>Freebie</span>
+      </div>
+      <div class="category-item">
+        <div class="category-icon cat-buymore">
+          <div class="cat-buymore-inner">BUY+<br>SAVE+</div>
+        </div>
+        <span class="category-name">Buy More<br>Save More</span>
+      </div>
+      <div class="category-item">
+        <div class="category-icon cat-new">
+          <img src="/placeholder.svg?height=56&width=56" alt="New Arrivals">
+          <span class="cat-new-badge">NEW</span>
+        </div>
+        <span class="category-name">New<br>Arrivals</span>
+      </div>
+      <div class="category-item">
+        <div class="category-icon cat-img">
+          <img src="/placeholder.svg?height=56&width=56" alt="Delivery">
+        </div>
+        <span class="category-name">Fast<br>Delivery</span>
+      </div>
+    </div>
+
+    <!-- Row 2 -->
+    <div class="categories-row" style="margin-top: 12px;">
+      <div class="category-item">
+        <div class="category-icon cat-img">
+          <img src="/placeholder.svg?height=56&width=56" alt="Beauty">
+        </div>
+        <span class="category-name">Beauty</span>
+      </div>
+      <div class="category-item">
+        <div class="category-icon cat-img">
+          <img src="/placeholder.svg?height=56&width=56" alt="Free Shipping">
+        </div>
+        <span class="category-name">Free<br>Shipping</span>
+      </div>
+      <div class="category-item">
+        <div class="category-icon cat-mall">
+          <div class="cat-mall-inner">
+            <span class="dm">dm</span>
+            100% AUTHENTIC
+          </div>
+        </div>
+        <span class="category-name">DarazMall</span>
+      </div>
+      <div class="category-item">
+        <div class="category-icon cat-img">
+          <img src="/placeholder.svg?height=56&width=56" alt="DarazLook">
+        </div>
+        <span class="category-name">DarazLook</span>
+      </div>
+      <div class="category-item">
+        <div class="category-icon cat-img">
+          <img src="/placeholder.svg?height=56&width=56" alt="Daraz Candy">
+        </div>
+        <span class="category-name">Daraz<br>Candy</span>
+      </div>
+      <div class="category-item">
+        <div class="category-icon cat-img">
+          <img src="/placeholder.svg?height=56&width=56" alt="Grocery">
+        </div>
+        <span class="category-name">Grocery</span>
+      </div>
+    </div>
+
+    <div class="category-dots">
+      <div class="category-dot active"></div>
+      <div class="category-dot"></div>
+    </div>
+  </div>
+
+  <!-- Flash Sale Section -->
+  <div class="flash-sale-section">
+    <div class="flash-sale-header">
+      <div class="flash-sale-title">
+        <span class="flash-text orange">Fla</span>
+        <span class="lightning">⚡</span>
+        <span class="flash-text red">h Sale</span>
+      </div>
+      <a href="#" class="shop-more">Shop More</a>
+    </div>
+    <div class="flash-products">
+      <!-- Product 1 -->
+      <div class="flash-product">
+        <div class="flash-product-image">
+          <img src="/placeholder.svg?height=120&width=120" alt="Shampoo">
+          <div class="save-badge">SAVE<br><span>19%</span></div>
+        </div>
+        <div class="flash-price">Rs. 255</div>
+        <div class="flash-original-price">Rs.315</div>
+        <div class="sold-badge">
+          <span class="fire-icon">🔥</span>
+          613 Sold
+        </div>
+      </div>
+      <!-- Product 2 -->
+      <div class="flash-product">
+        <div class="flash-product-image">
+          <img src="/placeholder.svg?height=120&width=120" alt="Extension Board">
+          <div class="save-badge">SAVE<br><span>%</span></div>
+        </div>
+        <div class="flash-price">Rs. 1,050</div>
+        <div class="flash-original-price">Rs.1,050</div>
+        <div class="sold-badge">
+          <span class="fire-icon">🔥</span>
+          47 Sold
+        </div>
+      </div>
+      <!-- Product 3 -->
+      <div class="flash-product">
+        <div class="flash-product-image">
+          <img src="/placeholder.svg?height=120&width=120" alt="LED Strip">
+          <div class="save-badge">SAVE<br><span>66%</span></div>
+        </div>
+        <div class="flash-price">Rs. 999</div>
+        <div class="flash-original-price">Rs.2,900</div>
+        <div class="sold-badge stock">
+          <span class="fire-icon">🔥</span>
+          6 Stock left
+        </div>
+      </div>
+      <!-- Product 4 -->
+      <div class="flash-product">
+        <div class="flash-product-image">
+          <img src="/placeholder.svg?height=120&width=120" alt="Earbuds">
+          <div class="save-badge">SAVE<br><span>45%</span></div>
+        </div>
+        <div class="flash-price">Rs. 799</div>
+        <div class="flash-original-price">Rs.1,450</div>
+        <div class="sold-badge">
+          <span class="fire-icon">🔥</span>
+          234 Sold
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
