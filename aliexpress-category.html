@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <title>AliExpress - Category</title>
   <style>
     * {
@@ -11,13 +11,18 @@
       box-sizing: border-box;
     }
 
+    html, body {
+      height: 100%;
+      overflow: hidden;
+    }
+
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       background-color: #fff;
       max-width: 480px;
       margin: 0 auto;
       border: 1px solid #e5e5e5;
-      min-height: 100vh;
+      height: 100vh;
       display: flex;
       flex-direction: column;
     }
@@ -29,6 +34,7 @@
       align-items: center;
       padding: 12px 16px;
       border-bottom: 1px solid #f0f0f0;
+      flex-shrink: 0;
     }
 
     .logo {
@@ -57,6 +63,12 @@
       background-color: #f5f5f5;
       overflow-y: auto;
       flex-shrink: 0;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .sidebar::-webkit-scrollbar {
+      width: 0;
+      display: none;
     }
 
     .sidebar-item {
@@ -66,6 +78,7 @@
       cursor: pointer;
       border-left: 3px solid transparent;
       line-height: 1.3;
+      transition: all 0.2s ease;
     }
 
     .sidebar-item:hover {
@@ -84,6 +97,16 @@
       flex: 1;
       padding: 16px;
       overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .products-area::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .products-area::-webkit-scrollbar-thumb {
+      background-color: #ddd;
+      border-radius: 4px;
     }
 
     .section-title {
@@ -104,6 +127,17 @@
       flex-direction: column;
       align-items: center;
       cursor: pointer;
+      padding: 8px;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .product-item:hover {
+      background-color: #f5f5f5;
+    }
+
+    .product-item:active {
+      transform: scale(0.95);
     }
 
     .product-image {
@@ -129,6 +163,7 @@
       padding: 8px 0 12px;
       border-top: 1px solid #f0f0f0;
       background-color: #fff;
+      flex-shrink: 0;
     }
 
     .nav-item {
@@ -138,6 +173,12 @@
       cursor: pointer;
       color: #666;
       font-size: 10px;
+      transition: all 0.2s ease;
+      padding: 4px 12px;
+    }
+
+    .nav-item:active {
+      transform: scale(0.9);
     }
 
     .nav-item.active {
@@ -151,7 +192,21 @@
     }
 
     .nav-item.active .nav-icon {
+      stroke: #e62e04;
+    }
+
+    .nav-item.active .nav-icon.filled {
       fill: #e62e04;
+      stroke: none;
+    }
+
+    /* Category specific products - hidden by default */
+    .category-products {
+      display: none;
+    }
+
+    .category-products.active {
+      display: grid;
     }
   </style>
 </head>
@@ -168,104 +223,386 @@
   <!-- Main Content -->
   <div class="main-content">
     <!-- Sidebar -->
-    <nav class="sidebar">
-      <div class="sidebar-item active">For you</div>
-      <div class="sidebar-item">Home Improvement & Lighting</div>
-      <div class="sidebar-item">Jewelry & Watches</div>
-      <div class="sidebar-item">Electronics</div>
-      <div class="sidebar-item">Beauty & Health</div>
-      <div class="sidebar-item">Toys & Games</div>
-      <div class="sidebar-item">Lingerie & Loungewear</div>
-      <div class="sidebar-item">Women's Clothing</div>
-      <div class="sidebar-item">Automotive & Motorcycle</div>
-      <div class="sidebar-item">Sports & Entertainment</div>
-      <div class="sidebar-item">Computer, Office & Education</div>
+    <nav class="sidebar" id="sidebar">
+      <div class="sidebar-item active" data-category="foryou">For you</div>
+      <div class="sidebar-item" data-category="home">Home Improvement & Lighting</div>
+      <div class="sidebar-item" data-category="jewelry">Jewelry & Watches</div>
+      <div class="sidebar-item" data-category="electronics">Electronics</div>
+      <div class="sidebar-item" data-category="beauty">Beauty & Health</div>
+      <div class="sidebar-item" data-category="toys">Toys & Games</div>
+      <div class="sidebar-item" data-category="lingerie">Lingerie & Loungewear</div>
+      <div class="sidebar-item" data-category="women">Women's Clothing</div>
+      <div class="sidebar-item" data-category="automotive">Automotive & Motorcycle</div>
+      <div class="sidebar-item" data-category="sports">Sports & Entertainment</div>
+      <div class="sidebar-item" data-category="computer">Computer, Office & Education</div>
     </nav>
 
     <!-- Products Area -->
-    <main class="products-area">
-      <h2 class="section-title">Recommended</h2>
-      <div class="products-grid">
+    <main class="products-area" id="productsArea">
+      <h2 class="section-title" id="sectionTitle">Recommended</h2>
+      
+      <!-- For You / Recommended Products -->
+      <div class="products-grid category-products active" id="foryou">
         <div class="product-item">
-          <img src="/placeholder.svg?height=80&width=80" alt="iPhone" class="product-image">
+          <img src="/images/image.png" alt="iPhone" class="product-image" style="object-position: 27% 22%; object-fit: none; transform: scale(2.5);">
           <span class="product-name">iPhone</span>
         </div>
         <div class="product-item">
-          <img src="/placeholder.svg?height=80&width=80" alt="Digital Cameras" class="product-image">
+          <img src="/images/image.png" alt="Digital Cameras" class="product-image" style="object-position: 50% 22%; object-fit: none; transform: scale(2.5);">
           <span class="product-name">Digital Cameras</span>
         </div>
         <div class="product-item">
-          <img src="/placeholder.svg?height=80&width=80" alt="Earphones & Headphones" class="product-image">
+          <img src="/images/image.png" alt="Earphones & Headphones" class="product-image" style="object-position: 73% 22%; object-fit: none; transform: scale(2.5);">
           <span class="product-name">Earphones & Headphones</span>
         </div>
         <div class="product-item">
-          <img src="/placeholder.svg?height=80&width=80" alt="Phone Cases" class="product-image">
+          <img src="/images/image.png" alt="Phone Cases" class="product-image" style="object-position: 27% 38%; object-fit: none; transform: scale(2.5);">
           <span class="product-name">Phone Cases</span>
         </div>
         <div class="product-item">
-          <img src="/placeholder.svg?height=80&width=80" alt="Video Game Consoles" class="product-image">
+          <img src="/images/image.png" alt="Video Game Consoles" class="product-image" style="object-position: 50% 38%; object-fit: none; transform: scale(2.5);">
           <span class="product-name">Video Game Consoles</span>
         </div>
         <div class="product-item">
-          <img src="/placeholder.svg?height=80&width=80" alt="Quartz Watches" class="product-image">
+          <img src="/images/image.png" alt="Quartz Watches" class="product-image" style="object-position: 73% 38%; object-fit: none; transform: scale(2.5);">
           <span class="product-name">Quartz Watches</span>
+        </div>
+        <div class="product-item">
+          <img src="/images/image.png" alt="Laptops" class="product-image" style="object-position: 27% 54%; object-fit: none; transform: scale(2.5);">
+          <span class="product-name">Laptops</span>
+        </div>
+        <div class="product-item">
+          <img src="/images/image.png" alt="Lint Remover" class="product-image" style="object-position: 50% 54%; object-fit: none; transform: scale(2.5);">
+          <span class="product-name">Lint Remover</span>
+        </div>
+        <div class="product-item">
+          <img src="/images/image.png" alt="Smart Watches Accessories" class="product-image" style="object-position: 73% 54%; object-fit: none; transform: scale(2.5);">
+          <span class="product-name">Smart Watches Accessories</span>
+        </div>
+        <div class="product-item">
+          <img src="/images/image.png" alt="Electronic Watches" class="product-image" style="object-position: 27% 70%; object-fit: none; transform: scale(2.5);">
+          <span class="product-name">Electronic Watches</span>
+        </div>
+        <div class="product-item">
+          <img src="/images/image.png" alt="Used Phones" class="product-image" style="object-position: 50% 70%; object-fit: none; transform: scale(2.5);">
+          <span class="product-name">Used Phones</span>
+        </div>
+        <div class="product-item">
+          <img src="/images/image.png" alt="Power Banks" class="product-image" style="object-position: 73% 70%; object-fit: none; transform: scale(2.5);">
+          <span class="product-name">Power Banks</span>
+        </div>
+        <div class="product-item">
+          <img src="/images/image.png" alt="Bags" class="product-image" style="object-position: 27% 86%; object-fit: none; transform: scale(2.5);">
+          <span class="product-name">Bags</span>
+        </div>
+        <div class="product-item">
+          <img src="/images/image.png" alt="Smart Home" class="product-image" style="object-position: 50% 86%; object-fit: none; transform: scale(2.5);">
+          <span class="product-name">Smart Home</span>
+        </div>
+        <div class="product-item">
+          <img src="/images/image.png" alt="Mobile Phone Chargers" class="product-image" style="object-position: 73% 86%; object-fit: none; transform: scale(2.5);">
+          <span class="product-name">Mobile Phone Chargers</span>
+        </div>
+      </div>
+
+      <!-- Electronics Products -->
+      <div class="products-grid category-products" id="electronics">
+        <div class="product-item">
+          <img src="/placeholder.svg?height=80&width=80" alt="Smartphones" class="product-image">
+          <span class="product-name">Smartphones</span>
+        </div>
+        <div class="product-item">
+          <img src="/placeholder.svg?height=80&width=80" alt="Tablets" class="product-image">
+          <span class="product-name">Tablets</span>
         </div>
         <div class="product-item">
           <img src="/placeholder.svg?height=80&width=80" alt="Laptops" class="product-image">
           <span class="product-name">Laptops</span>
         </div>
         <div class="product-item">
-          <img src="/placeholder.svg?height=80&width=80" alt="Lint Remover" class="product-image">
-          <span class="product-name">Lint Remover</span>
+          <img src="/placeholder.svg?height=80&width=80" alt="Headphones" class="product-image">
+          <span class="product-name">Headphones</span>
         </div>
         <div class="product-item">
-          <img src="/placeholder.svg?height=80&width=80" alt="Smart Watches Accessories" class="product-image">
-          <span class="product-name">Smart Watches Accessories</span>
+          <img src="/placeholder.svg?height=80&width=80" alt="Speakers" class="product-image">
+          <span class="product-name">Speakers</span>
         </div>
         <div class="product-item">
-          <img src="/placeholder.svg?height=80&width=80" alt="Electronic Watches" class="product-image">
-          <span class="product-name">Electronic Watches</span>
+          <img src="/placeholder.svg?height=80&width=80" alt="Cameras" class="product-image">
+          <span class="product-name">Cameras</span>
+        </div>
+      </div>
+
+      <!-- Jewelry Products -->
+      <div class="products-grid category-products" id="jewelry">
+        <div class="product-item">
+          <img src="/placeholder.svg?height=80&width=80" alt="Rings" class="product-image">
+          <span class="product-name">Rings</span>
         </div>
         <div class="product-item">
-          <img src="/placeholder.svg?height=80&width=80" alt="Used Phones" class="product-image">
-          <span class="product-name">Used Phones</span>
+          <img src="/placeholder.svg?height=80&width=80" alt="Necklaces" class="product-image">
+          <span class="product-name">Necklaces</span>
         </div>
         <div class="product-item">
-          <img src="/placeholder.svg?height=80&width=80" alt="Power Banks" class="product-image">
-          <span class="product-name">Power Banks</span>
+          <img src="/placeholder.svg?height=80&width=80" alt="Watches" class="product-image">
+          <span class="product-name">Watches</span>
         </div>
         <div class="product-item">
-          <img src="/placeholder.svg?height=80&width=80" alt="Bags" class="product-image">
-          <span class="product-name">Bags</span>
+          <img src="/placeholder.svg?height=80&width=80" alt="Bracelets" class="product-image">
+          <span class="product-name">Bracelets</span>
         </div>
         <div class="product-item">
-          <img src="/placeholder.svg?height=80&width=80" alt="Smart Home" class="product-image">
-          <span class="product-name">Smart Home</span>
+          <img src="/placeholder.svg?height=80&width=80" alt="Earrings" class="product-image">
+          <span class="product-name">Earrings</span>
         </div>
         <div class="product-item">
-          <img src="/placeholder.svg?height=80&width=80" alt="Mobile Phone Chargers" class="product-image">
-          <span class="product-name">Mobile Phone Chargers</span>
+          <img src="/placeholder.svg?height=80&width=80" alt="Pendants" class="product-image">
+          <span class="product-name">Pendants</span>
+        </div>
+      </div>
+
+      <!-- Home Improvement Products -->
+      <div class="products-grid category-products" id="home">
+        <div class="product-item">
+          <img src="/placeholder.svg?height=80&width=80" alt="Lamps" class="product-image">
+          <span class="product-name">Lamps</span>
+        </div>
+        <div class="product-item">
+          <img src="/placeholder.svg?height=80&width=80" alt="LED Lights" class="product-image">
+          <span class="product-name">LED Lights</span>
+        </div>
+        <div class="product-item">
+          <img src="/placeholder.svg?height=80&width=80" alt="Tools" class="product-image">
+          <span class="product-name">Tools</span>
+        </div>
+        <div class="product-item">
+          <img src="/placeholder.svg?height=80&width=80" alt="Paint" class="product-image">
+          <span class="product-name">Paint</span>
+        </div>
+        <div class="product-item">
+          <img src="/placeholder.svg?height=80&width=80" alt="Plumbing" class="product-image">
+          <span class="product-name">Plumbing</span>
+        </div>
+        <div class="product-item">
+          <img src="/placeholder.svg?height=80&width=80" alt="Electrical" class="product-image">
+          <span class="product-name">Electrical</span>
+        </div>
+      </div>
+
+      <!-- Beauty Products -->
+      <div class="products-grid category-products" id="beauty">
+        <div class="product-item">
+          <img src="/placeholder.svg?height=80&width=80" alt="Makeup" class="product-image">
+          <span class="product-name">Makeup</span>
+        </div>
+        <div class="product-item">
+          <img src="/placeholder.svg?height=80&width=80" alt="Skincare" class="product-image">
+          <span class="product-name">Skincare</span>
+        </div>
+        <div class="product-item">
+          <img src="/placeholder.svg?height=80&width=80" alt="Hair Care" class="product-image">
+          <span class="product-name">Hair Care</span>
+        </div>
+        <div class="product-item">
+          <img src="/placeholder.svg?height=80&width=80" alt="Perfume" class="product-image">
+          <span class="product-name">Perfume</span>
+        </div>
+        <div class="product-item">
+          <img src="/placeholder.svg?height=80&width=80" alt="Nail Art" class="product-image">
+          <span class="product-name">Nail Art</span>
+        </div>
+        <div class="product-item">
+          <img src="/placeholder.svg?height=80&width=80" alt="Health" class="product-image">
+          <span class="product-name">Health</span>
+        </div>
+      </div>
+
+      <!-- Toys Products -->
+      <div class="products-grid category-products" id="toys">
+        <div class="product-item">
+          <img src="/placeholder.svg?height=80&width=80" alt="Action Figures" class="product-image">
+          <span class="product-name">Action Figures</span>
+        </div>
+        <div class="product-item">
+          <img src="/placeholder.svg?height=80&width=80" alt="Board Games" class="product-image">
+          <span class="product-name">Board Games</span>
+        </div>
+        <div class="product-item">
+          <img src="/placeholder.svg?height=80&width=80" alt="Puzzles" class="product-image">
+          <span class="product-name">Puzzles</span>
+        </div>
+        <div class="product-item">
+          <img src="/placeholder.svg?height=80&width=80" alt="RC Cars" class="product-image">
+          <span class="product-name">RC Cars</span>
+        </div>
+        <div class="product-item">
+          <img src="/placeholder.svg?height=80&width=80" alt="Dolls" class="product-image">
+          <span class="product-name">Dolls</span>
+        </div>
+        <div class="product-item">
+          <img src="/placeholder.svg?height=80&width=80" alt="Building Blocks" class="product-image">
+          <span class="product-name">Building Blocks</span>
+        </div>
+      </div>
+
+      <!-- Lingerie Products -->
+      <div class="products-grid category-products" id="lingerie">
+        <div class="product-item">
+          <img src="/placeholder.svg?height=80&width=80" alt="Bras" class="product-image">
+          <span class="product-name">Bras</span>
+        </div>
+        <div class="product-item">
+          <img src="/placeholder.svg?height=80&width=80" alt="Pajamas" class="product-image">
+          <span class="product-name">Pajamas</span>
+        </div>
+        <div class="product-item">
+          <img src="/placeholder.svg?height=80&width=80" alt="Robes" class="product-image">
+          <span class="product-name">Robes</span>
+        </div>
+        <div class="product-item">
+          <img src="/placeholder.svg?height=80&width=80" alt="Sleepwear" class="product-image">
+          <span class="product-name">Sleepwear</span>
+        </div>
+        <div class="product-item">
+          <img src="/placeholder.svg?height=80&width=80" alt="Loungewear" class="product-image">
+          <span class="product-name">Loungewear</span>
+        </div>
+        <div class="product-item">
+          <img src="/placeholder.svg?height=80&width=80" alt="Underwear" class="product-image">
+          <span class="product-name">Underwear</span>
+        </div>
+      </div>
+
+      <!-- Women's Clothing Products -->
+      <div class="products-grid category-products" id="women">
+        <div class="product-item">
+          <img src="/placeholder.svg?height=80&width=80" alt="Dresses" class="product-image">
+          <span class="product-name">Dresses</span>
+        </div>
+        <div class="product-item">
+          <img src="/placeholder.svg?height=80&width=80" alt="Blouses" class="product-image">
+          <span class="product-name">Blouses</span>
+        </div>
+        <div class="product-item">
+          <img src="/placeholder.svg?height=80&width=80" alt="Jeans" class="product-image">
+          <span class="product-name">Jeans</span>
+        </div>
+        <div class="product-item">
+          <img src="/placeholder.svg?height=80&width=80" alt="Skirts" class="product-image">
+          <span class="product-name">Skirts</span>
+        </div>
+        <div class="product-item">
+          <img src="/placeholder.svg?height=80&width=80" alt="Coats" class="product-image">
+          <span class="product-name">Coats</span>
+        </div>
+        <div class="product-item">
+          <img src="/placeholder.svg?height=80&width=80" alt="Sweaters" class="product-image">
+          <span class="product-name">Sweaters</span>
+        </div>
+      </div>
+
+      <!-- Automotive Products -->
+      <div class="products-grid category-products" id="automotive">
+        <div class="product-item">
+          <img src="/placeholder.svg?height=80&width=80" alt="Car Accessories" class="product-image">
+          <span class="product-name">Car Accessories</span>
+        </div>
+        <div class="product-item">
+          <img src="/placeholder.svg?height=80&width=80" alt="Car Electronics" class="product-image">
+          <span class="product-name">Car Electronics</span>
+        </div>
+        <div class="product-item">
+          <img src="/placeholder.svg?height=80&width=80" alt="Motorcycle Parts" class="product-image">
+          <span class="product-name">Motorcycle Parts</span>
+        </div>
+        <div class="product-item">
+          <img src="/placeholder.svg?height=80&width=80" alt="Car Lights" class="product-image">
+          <span class="product-name">Car Lights</span>
+        </div>
+        <div class="product-item">
+          <img src="/placeholder.svg?height=80&width=80" alt="Car Covers" class="product-image">
+          <span class="product-name">Car Covers</span>
+        </div>
+        <div class="product-item">
+          <img src="/placeholder.svg?height=80&width=80" alt="Helmets" class="product-image">
+          <span class="product-name">Helmets</span>
+        </div>
+      </div>
+
+      <!-- Sports Products -->
+      <div class="products-grid category-products" id="sports">
+        <div class="product-item">
+          <img src="/placeholder.svg?height=80&width=80" alt="Fitness" class="product-image">
+          <span class="product-name">Fitness</span>
+        </div>
+        <div class="product-item">
+          <img src="/placeholder.svg?height=80&width=80" alt="Yoga" class="product-image">
+          <span class="product-name">Yoga</span>
+        </div>
+        <div class="product-item">
+          <img src="/placeholder.svg?height=80&width=80" alt="Camping" class="product-image">
+          <span class="product-name">Camping</span>
+        </div>
+        <div class="product-item">
+          <img src="/placeholder.svg?height=80&width=80" alt="Cycling" class="product-image">
+          <span class="product-name">Cycling</span>
+        </div>
+        <div class="product-item">
+          <img src="/placeholder.svg?height=80&width=80" alt="Running" class="product-image">
+          <span class="product-name">Running</span>
+        </div>
+        <div class="product-item">
+          <img src="/placeholder.svg?height=80&width=80" alt="Swimming" class="product-image">
+          <span class="product-name">Swimming</span>
+        </div>
+      </div>
+
+      <!-- Computer Products -->
+      <div class="products-grid category-products" id="computer">
+        <div class="product-item">
+          <img src="/placeholder.svg?height=80&width=80" alt="Keyboards" class="product-image">
+          <span class="product-name">Keyboards</span>
+        </div>
+        <div class="product-item">
+          <img src="/placeholder.svg?height=80&width=80" alt="Mouse" class="product-image">
+          <span class="product-name">Mouse</span>
+        </div>
+        <div class="product-item">
+          <img src="/placeholder.svg?height=80&width=80" alt="Monitors" class="product-image">
+          <span class="product-name">Monitors</span>
+        </div>
+        <div class="product-item">
+          <img src="/placeholder.svg?height=80&width=80" alt="USB Drives" class="product-image">
+          <span class="product-name">USB Drives</span>
+        </div>
+        <div class="product-item">
+          <img src="/placeholder.svg?height=80&width=80" alt="Office Supplies" class="product-image">
+          <span class="product-name">Office Supplies</span>
+        </div>
+        <div class="product-item">
+          <img src="/placeholder.svg?height=80&width=80" alt="School Supplies" class="product-image">
+          <span class="product-name">School Supplies</span>
         </div>
       </div>
     </main>
   </div>
 
   <!-- Bottom Navigation -->
-  <nav class="bottom-nav">
-    <div class="nav-item">
+  <nav class="bottom-nav" id="bottomNav">
+    <div class="nav-item" data-page="home">
       <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
         <polyline points="9,22 9,12 15,12 15,22"></polyline>
       </svg>
       <span>Home</span>
     </div>
-    <div class="nav-item active">
-      <svg class="nav-icon" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+    <div class="nav-item active" data-page="category">
+      <svg class="nav-icon filled" viewBox="0 0 24 24" fill="currentColor" stroke="none">
         <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"></path>
       </svg>
       <span>Category</span>
     </div>
-    <div class="nav-item">
+    <div class="nav-item" data-page="cart">
       <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
         <line x1="3" y1="6" x2="21" y2="6"></line>
@@ -273,7 +610,7 @@
       </svg>
       <span>Cart</span>
     </div>
-    <div class="nav-item">
+    <div class="nav-item" data-page="account">
       <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
         <circle cx="12" cy="7" r="4"></circle>
@@ -281,5 +618,107 @@
       <span>Account</span>
     </div>
   </nav>
+
+  <script>
+    // Category titles mapping
+    const categoryTitles = {
+      foryou: 'Recommended',
+      home: 'Home Improvement & Lighting',
+      jewelry: 'Jewelry & Watches',
+      electronics: 'Electronics',
+      beauty: 'Beauty & Health',
+      toys: 'Toys & Games',
+      lingerie: 'Lingerie & Loungewear',
+      women: "Women's Clothing",
+      automotive: 'Automotive & Motorcycle',
+      sports: 'Sports & Entertainment',
+      computer: 'Computer, Office & Education'
+    };
+
+    // Sidebar category click handler
+    const sidebarItems = document.querySelectorAll('.sidebar-item');
+    const categoryProducts = document.querySelectorAll('.category-products');
+    const sectionTitle = document.getElementById('sectionTitle');
+    const productsArea = document.getElementById('productsArea');
+
+    sidebarItems.forEach(item => {
+      item.addEventListener('click', function() {
+        // Remove active class from all items
+        sidebarItems.forEach(i => i.classList.remove('active'));
+        
+        // Add active class to clicked item
+        this.classList.add('active');
+        
+        // Get category
+        const category = this.getAttribute('data-category');
+        
+        // Update section title
+        sectionTitle.textContent = categoryTitles[category];
+        
+        // Hide all product grids
+        categoryProducts.forEach(grid => grid.classList.remove('active'));
+        
+        // Show selected category products
+        const selectedGrid = document.getElementById(category);
+        if (selectedGrid) {
+          selectedGrid.classList.add('active');
+        }
+        
+        // Scroll products area to top
+        productsArea.scrollTop = 0;
+      });
+    });
+
+    // Bottom navigation click handler
+    const navItems = document.querySelectorAll('.nav-item');
+
+    navItems.forEach(item => {
+      item.addEventListener('click', function() {
+        // Remove active class from all nav items
+        navItems.forEach(i => i.classList.remove('active'));
+        
+        // Add active class to clicked item
+        this.classList.add('active');
+        
+        // Get page name
+        const page = this.getAttribute('data-page');
+        
+        // You can add page navigation logic here
+        console.log('Navigate to:', page);
+      });
+    });
+
+    // Product item click handler
+    const productItems = document.querySelectorAll('.product-item');
+
+    productItems.forEach(item => {
+      item.addEventListener('click', function() {
+        const productName = this.querySelector('.product-name').textContent;
+        console.log('Product clicked:', productName);
+        // Add your product click logic here
+      });
+    });
+
+    // Search icon click handler
+    const searchIcon = document.querySelector('.search-icon');
+
+    searchIcon.addEventListener('click', function() {
+      console.log('Search clicked');
+      // Add your search logic here
+    });
+
+    // Smooth scroll for sidebar
+    const sidebar = document.getElementById('sidebar');
+    let isScrolling = false;
+
+    sidebar.addEventListener('scroll', function() {
+      if (!isScrolling) {
+        window.requestAnimationFrame(function() {
+          isScrolling = false;
+        });
+        isScrolling = true;
+      }
+    });
+  </script>
 </body>
 </html>
